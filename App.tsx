@@ -1,20 +1,23 @@
+import Navigation from '@navigation';
+import useCachedResources from './src/hooks/useCachedResources';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import useColorScheme from '@hooks/useColorScheme';
+import HomeScreen from '@screens/home';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const isLoadingComplete = useCachedResources();
+  const colorScheme = useColorScheme(); 
+  if (!isLoadingComplete) {
+    return null;
+  } else {
+    return (
+      <SafeAreaProvider>
+        <StatusBar style='auto' animated={true}  backgroundColor='transparent'/>
+        <Navigation colorScheme={colorScheme}/>
+        <HomeScreen/>
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+      </SafeAreaProvider>
+    );
+  }
+}
