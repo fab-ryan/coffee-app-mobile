@@ -1,4 +1,4 @@
-import { FontAwesome } from '@expo/vector-icons';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   NavigationContainer,
@@ -6,16 +6,16 @@ import {
   DarkTheme,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-import Colors from '@constants/colors';
+import Colors from '@constants/Colors';
 import useColorScheme from '@hooks/useColorScheme';
 import { RootStackParamList, RootTabParamList } from './types';
 
-import HomeScreen from '@screens/home';
-import LoginScreen from '@screens/login';
+import HomeScreen from '@screens/Home';
+import LoginScreen from '@screens/Login';
+import { Icon, IconType } from '@components';
 
 export default function Navigation({
   colorScheme,
@@ -66,7 +66,6 @@ function RootNavigator(): JSX.Element {
         component={LoginScreen}
         options={{ headerShown: false }}
       />
-
       <Stack.Screen
         name='Root'
         component={BottomTabNavigator}
@@ -107,10 +106,14 @@ function BottomTabNavigator() {
           component={HomeScreen}
           options={{
             title: 'Home',
-            tabBarIcon: ({ color }) => (
-              <TabBarIcon
-                name='home'
+            tabBarShowLabel: false,
+            tabBarIcon: ({ color, size }) => (
+              <Icon
+                name='md-home-outline'
                 color={color}
+                size={size}
+                type={IconType.ionicon
+                }
               />
             ),
             headerShown: false,
@@ -118,20 +121,5 @@ function BottomTabNavigator() {
         />
       </BottomTab.Navigator>
     </SafeAreaView>
-  );
-}
-
-type TabBarIconProps = {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-  size?: number;
-};
-
-function TabBarIcon(props: TabBarIconProps) {
-  return (
-    <FontAwesome
-      size={props.size || 24}
-      {...props}
-    />
   );
 }

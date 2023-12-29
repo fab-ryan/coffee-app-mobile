@@ -3,7 +3,6 @@ import useCachedResources from './src/hooks/useCachedResources';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import useColorScheme from '@hooks/useColorScheme';
-import HomeScreen from '@screens/home';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -13,10 +12,8 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <StatusBar style='auto' animated={true}  backgroundColor='transparent'/>
+        <StatusBar  animated={true}  backgroundColor='transparent'/>
         <Navigation colorScheme={colorScheme}/>
-        <HomeScreen/>
-
       </SafeAreaProvider>
     );
   }

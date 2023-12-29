@@ -5,21 +5,31 @@ export const lightColor = '#AEAEAE';
 export const whiteColor = '#fff';
 export const tint = '#252A32';
 export const red = '#DC3535';
+export const inputBackgroundColor = '#141921';
 
 export default {
   light: {
     text: whiteColor,
     background: primaryColor,
     tint: tint,
-    tabIconDefault: secondaryColor,
-    tabIconSelected: tint,
-
+    tabIconDefault: lightSecondaryColor,
+    tabIconSelected: secondaryColor,
+    red: red,
+    lightSecondaryColor: lightSecondaryColor,
+    lightColor: lightColor,
+    whiteColor: whiteColor,
+    inputBackgroundColor: inputBackgroundColor
   },
   dark: {
     text: whiteColor,
     background: primaryColor,
     tint: tint,
-    tabIconDefault: '#D3EFFF',
-    tabIconSelected: primaryColor,
+    tabIconDefault: lightSecondaryColor,
+    tabIconSelected: secondaryColor,
+    red: red,
+    lightSecondaryColor: lightSecondaryColor,
+    lightColor: lightColor,
+    whiteColor: whiteColor,
+    inputBackgroundColor: inputBackgroundColor
   },
 };

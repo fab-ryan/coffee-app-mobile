@@ -32,7 +32,8 @@
     "incremental": true,
     "noEmitOnError": true,
     "paths": {
-        "@*": ["./src/*"]
+        "@*": ["./src/*"],
+        "@assets/*": ["./assets/*"],
     }
   },
   "exclude": ["node_modules"],
