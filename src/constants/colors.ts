@@ -4,7 +4,7 @@ export const lightSecondaryColor = '#52555A';
 export const lightColor = '#AEAEAE';
 export const whiteColor = '#fff';
 export const tint = '#252A32';
-export const red = '#DC3535';
+export const redColor = '#DC3535';
 export const inputBackgroundColor = '#141921';
 
 export default {
@@ -14,7 +14,7 @@ export default {
     tint: tint,
     tabIconDefault: lightSecondaryColor,
     tabIconSelected: secondaryColor,
-    red: red,
+    redColor: redColor,
     lightSecondaryColor: lightSecondaryColor,
     lightColor: lightColor,
     whiteColor: whiteColor,
@@ -26,7 +26,7 @@ export default {
     tint: tint,
     tabIconDefault: lightSecondaryColor,
     tabIconSelected: secondaryColor,
-    red: red,
+    redColor: redColor,
     lightSecondaryColor: lightSecondaryColor,
     lightColor: lightColor,
     whiteColor: whiteColor,

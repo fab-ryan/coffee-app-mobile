@@ -7,9 +7,9 @@ import {
   AntDesign,
   Entypo,
 } from '@expo/vector-icons';
-import {IconProps, Icons} from '@utils'
+import {IconProps, IconsEnum} from '@utils'
 
- function Icon<T extends Icons>(props: IconProps<T>) {
+ function Icon<T extends IconsEnum>(props: IconProps<T>) {
   const {  size = 16, lightColor, darkColor, ...otherProps } = props;
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
   const IconComponent = getIconComponent(props.type);
@@ -25,19 +25,19 @@ import {IconProps, Icons} from '@utils'
   );
 }
 
-function getIconComponent(type?: Icons) {
+function getIconComponent(type?: IconsEnum) {
   switch (type) {
-    case Icons.fa:
+    case IconsEnum.fa:
       return FontAwesome;
-    case Icons.feather:
+    case IconsEnum.feather:
       return Feather;
-    case Icons.material:
+    case IconsEnum.material:
       return MaterialCommunityIcons;
-    case Icons.ionicon:
+    case IconsEnum.ionicon:
       return Ionicons;
-    case Icons.antdesign:
+    case IconsEnum.antdesign:
       return AntDesign;
-    case Icons.entypo:
+    case IconsEnum.entypo:
       return Entypo;
     default:
       return FontAwesome;

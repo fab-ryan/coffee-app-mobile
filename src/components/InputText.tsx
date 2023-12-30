@@ -12,23 +12,32 @@ import {
 import { Controller, ControllerProps, FieldValues } from 'react-hook-form';
 
 import { TextInput, TextInputProps, Text } from './Themed';
-import { tint, lightColor, inputBackgroundColor } from '../constants/Colors';
+import {
+  tint,
+  lightColor,
+  inputBackgroundColor,
+  redColor,
+} from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import { Icon } from './Icon';
-import { IconProps, Icons } from '@utils';
+import { IconProps, IconsEnum } from '@utils';
+import { Flag } from '@svg';
 
 type TextInputFieldProps = TextInputProps & {
   containerStyle?: StyleProp<ViewStyle>;
   label?: string;
   error?: string | boolean;
-  icon?: IconProps<Icons>;
-  iconType?: keyof typeof Icons;
+  icon?: IconProps<IconsEnum>;
+  iconType?: keyof typeof IconsEnum;
 };
 
-type ControlledTextInputProps<T extends keyof FieldValues = keyof FieldValues> =
-  TextInputFieldProps &
-    Partial<ControllerProps<FieldValues, T>> &
-    Pick<ControllerProps<FieldValues, T>, 'name'>;
+type ControlledTextInputProps<T> = TextInputFieldProps &
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  Partial<ControllerProps<T>> &
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  Pick<ControllerProps<T>, 'name'>;
 
 function TextInputField({
   style,
@@ -130,7 +139,7 @@ function TextInputField({
           <Icon
             name={icon['name']}
             size={18}
-            type={Icons[iconType || 'fa']}
+            type={IconsEnum[iconType || 'fa']}
             lightColor={
               isFocused ? 'rgba(3, 49, 75, 0.6)' : 'rgba(3, 49, 75, 0.4)'
             }
@@ -152,6 +161,20 @@ function TextInputField({
           onFocus={onFocusHandler}
         />
 
+        {hasPhonePadKeyboard && (
+          <View style={styles.flag}>
+            <Flag />
+            <Text style={styles.flagText}>+250</Text>
+            <Text
+              darkColor='rgba(255, 255, 255, 0.4)'
+              lightColor='rgba(3, 49, 75, 0.4)'
+              style={styles.flagBar}
+            >
+              |
+            </Text>
+          </View>
+        )}
+
         {secureTextEntry && (
           <TouchableOpacity
             onPress={toggleSecure}
@@ -160,7 +183,7 @@ function TextInputField({
             {secure ? (
               <Icon
                 name='eye-off'
-                type={Icons.feather}
+                type={IconsEnum.feather}
                 size={18}
                 lightColor={
                   isFocused ? 'rgba(3, 49, 75, 0.6)' : 'rgba(3, 49, 75, 0.4)'
@@ -174,7 +197,7 @@ function TextInputField({
             ) : (
               <Icon
                 name='eye'
-                type={Icons.feather}
+                type={IconsEnum.feather}
                 size={18}
                 lightColor={
                   isFocused ? 'rgba(3, 49, 75, 0.6)' : 'rgba(3, 49, 75, 0.4)'
@@ -189,19 +212,20 @@ function TextInputField({
           </TouchableOpacity>
         )}
       </View>
+
+      {error && <Text style={styles.errorMessage}>{error}</Text>}
     </View>
   );
 }
 
-export const InputText = ({
+export const InputText = <TFieldValues extends FieldValues = FieldValues>({
   name,
   control,
   rules,
   ...props
-}: ControlledTextInputProps) => {
+}: ControlledTextInputProps<TFieldValues>) => {
   return (
     <Controller
-      name={name}
       control={control}
       rules={rules}
       render={({ field: { onChange, onBlur, value } }) => (
@@ -212,6 +236,7 @@ export const InputText = ({
           value={value}
         />
       )}
+      name={name}
     />
   );
 };
@@ -235,6 +260,7 @@ const styles = StyleSheet.create({
     borderColor: '#E2E9EB',
     borderRadius: 15,
     padding: 15,
+    position:'relative',
   },
   eyeButton: {
     position: 'absolute',
@@ -244,5 +270,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     right: 0,
     width: 48,
+  },
+  errorMessage: {
+    color: redColor,
+  },
+
+  flag: {
+    position: 'absolute',
+    top: 15,
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    left: 12,
+    width: 70,
+    display: 'flex',
+    flexDirection: 'row',
+
+  },
+  inputHasFlag: {
+    paddingLeft: 55,
+  },
+  flagText: {
+    fontSize: 16,
+    paddingLeft: 5,
+  },
+  flagBar: {
+    paddingLeft: 3,
+   
   },
 });

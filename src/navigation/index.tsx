@@ -1,4 +1,3 @@
-
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   NavigationContainer,
@@ -11,11 +10,18 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import Colors from '@constants/Colors';
 import useColorScheme from '@hooks/useColorScheme';
-import { RootStackParamList, RootTabParamList } from './types';
+import { RootStackParamList, RootTabParamList } from '@utils';
 
+// Screens for all modules
 import HomeScreen from '@screens/Home';
 import LoginScreen from '@screens/Login';
-import { Icon, IconType } from '@components';
+import RegisterScreen from '@screens/SignUp';
+import NotFoundScreen from '@screens/NotFound';
+
+
+import { Icon } from '@components/Icon';
+import { IconsEnum } from '@utils';
+
 
 export default function Navigation({
   colorScheme,
@@ -66,17 +72,25 @@ function RootNavigator(): JSX.Element {
         component={LoginScreen}
         options={{ headerShown: false }}
       />
+
+      <Stack.Screen
+      name='Register'
+      component={RegisterScreen}
+      options={{ headerShown: false }}
+      >
+
+      </Stack.Screen>
       <Stack.Screen
         name='Root'
         component={BottomTabNavigator}
         options={{ headerShown: false }}
       />
 
-      {/* <Stack.Screen==
+      <Stack.Screen
         name='NotFound'
         component={NotFoundScreen}
         options={{ title: 'Oops!' }}
-      /> */}
+      />
     </Stack.Navigator>
   );
 }
@@ -112,8 +126,7 @@ function BottomTabNavigator() {
                 name='md-home-outline'
                 color={color}
                 size={size}
-                type={IconType.ionicon
-                }
+                type={IconsEnum.ionicon}
               />
             ),
             headerShown: false,

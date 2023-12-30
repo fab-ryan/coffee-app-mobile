@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 import {
     FontAwesome,
     Feather,
@@ -8,7 +9,7 @@ import {
   } from '@expo/vector-icons';
   import * as React from 'react';
 
-export enum Icons {
+export enum IconsEnum {
     fa = 'fa',
     feather = 'feather',
     material = 'material',
@@ -17,7 +18,7 @@ export enum Icons {
     entypo = 'entypo',
   }
 
-  export type IconProps<T extends Icons> = {
+  export type IconProps<T extends IconsEnum> = {
     name: ComponentProps[T]['name'] ;
     color?: string;
     size?: number;
@@ -37,3 +38,32 @@ interface ComponentProps {
     antdesign : React.ComponentProps<typeof AntDesign>,
     entypo : React.ComponentProps<typeof Entypo>,
   }
+
+  import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import {
+  CompositeScreenProps,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+
+export type RootStackParamList = {
+  Root: NavigatorScreenParams<RootTabParamList> | undefined;
+  // NotFound: undefined;
+  Login: undefined;
+  Register: undefined;
+  NotFound: undefined;
+};
+
+export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
+  NativeStackScreenProps<RootStackParamList, Screen>;
+
+export type RootTabParamList = {
+  Home: undefined;
+};
+
+export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
+  CompositeScreenProps<
+    BottomTabScreenProps<RootTabParamList, Screen>,
+    NativeStackScreenProps<RootStackParamList>
+  >;
