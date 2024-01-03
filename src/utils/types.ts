@@ -23,6 +23,7 @@ export enum IconsEnum {
     color?: string;
     size?: number;
     type?: T;
+    style?:StyleProp<TextStyle>;
   } & ThemeProps;
 
 type ThemeProps = {
@@ -45,6 +46,7 @@ import {
   NavigatorScreenParams,
 } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { StyleProp, TextStyle } from 'react-native';
 
 
 export type RootStackParamList = {
@@ -53,6 +55,7 @@ export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
   NotFound: undefined;
+  Modal: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

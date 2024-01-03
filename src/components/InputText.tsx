@@ -17,8 +17,8 @@ import {
   lightColor,
   inputBackgroundColor,
   redColor,
-} from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
+} from '@constants/Colors';
+import useColorScheme from '@hooks/useColorScheme';
 import { Icon } from './Icon';
 import { IconProps, IconsEnum } from '@utils';
 import { Flag } from '@svg';

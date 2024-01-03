@@ -18,10 +18,11 @@ import LoginScreen from '@screens/Login';
 import RegisterScreen from '@screens/SignUp';
 import NotFoundScreen from '@screens/NotFound';
 
-
 import { Icon } from '@components/Icon';
 import { IconsEnum } from '@utils';
-
+import { useAuth, useSelector } from '@hooks';
+import { useEffect } from 'react';
+import ModalScreen from '@screens/Modal';
 
 export default function Navigation({
   colorScheme,
@@ -64,33 +65,49 @@ export default function Navigation({
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
 function RootNavigator(): JSX.Element {
+  const authenticated = useAuth();
+  const {
+    token: { access_token },
+  } = useSelector((state) => state.authUser);
+
+  useEffect(() => {}, [access_token]);
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name='Login'
-        component={LoginScreen}
-        options={{ headerShown: false }}
-      />
+      {authenticated && (
+        <Stack.Group>
+          <Stack.Screen
+            name='Root'
+            component={BottomTabNavigator}
+            options={{ headerShown: false }}
+          />
+        </Stack.Group>
+      )}
 
-      <Stack.Screen
-      name='Register'
-      component={RegisterScreen}
-      options={{ headerShown: false }}
-      >
-
-      </Stack.Screen>
-      <Stack.Screen
-        name='Root'
-        component={BottomTabNavigator}
-        options={{ headerShown: false }}
-      />
+      {!authenticated && (
+        <>
+          <Stack.Screen
+            name='Login'
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='Register'
+            component={RegisterScreen}
+            options={{ headerShown: false }}
+          />
+        </>
+      )}
 
       <Stack.Screen
         name='NotFound'
         component={NotFoundScreen}
         options={{ title: 'Oops!' }}
       />
+      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        <Stack.Screen name="Modal" component={ModalScreen} />
+      </Stack.Group>
     </Stack.Navigator>
   );
 }

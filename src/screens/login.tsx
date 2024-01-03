@@ -1,6 +1,5 @@
 import { SafeAreaView, StyleSheet } from 'react-native';
-import { View, Text, Image, Link , Button
-   } from '@components';
+import { View, Text, Image, Link, Button } from '@components';
 
 import { lightSecondaryColor } from '@constants/Colors';
 import logo from '@assets/images/logo.png';
@@ -12,6 +11,9 @@ import { InputText } from '@components/InputText';
 import { RootStackScreenProps } from '@utils';
 import { loginValidationSchema } from '@schemas';
 
+import { useLoginMutation } from '@redux';
+import { useActions } from '@hooks';
+
 type LoginData = {
   email: string;
   password: string;
@@ -20,6 +22,10 @@ type LoginData = {
 export default function LoginScreen({
   navigation,
 }: RootStackScreenProps<'Login'>) {
+  const { openToast, setAuthUser } = useActions();
+
+  const [login, loginRespond] = useLoginMutation();
+
   const {
     control,
     handleSubmit,
@@ -35,11 +41,38 @@ export default function LoginScreen({
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleLogin = (data: any) => {
-    if(submitCount === 0) {
+    if (submitCount === 0) {
       return;
     }
-    console.log(data);
+    const payload = {
+      email: data.email,
+      password: data.password,
+    } as LoginData;
+
+    login(payload)
+      .unwrap()
+      .then((e) => {
+        if (e.success) {
+          setAuthUser(e);
+          openToast({
+            message: e.message,
+            type: 'Success',
+          });
+        } else {
+          openToast({
+            message: e.message,
+            type: 'Failed',
+          });
+        }
+      })
+      .catch((e) => {
+        openToast({
+          message: e.message,
+          type: 'Failed',
+        });
+      });
   };
+
   const handleSignUp = () => {
     navigation.navigate('Register');
   };
@@ -82,13 +115,17 @@ export default function LoginScreen({
           }}
           error={errors.password?.message}
         />
-         <Link style={styles.forgotPassword} onPress={() => {}}>
-           <Text>Forgot password?</Text>
+        <Link
+          style={styles.forgotPassword}
+          onPress={() => {}}
+        >
+          <Text>Forgot password?</Text>
         </Link>
         <Button
           color='primary'
           style={styles.submitBtn}
           title='Login'
+          loading={loginRespond.isLoading}
           onPress={handleSubmit(handleLogin)}
         />
         <Text style={styles.or}>OR</Text>

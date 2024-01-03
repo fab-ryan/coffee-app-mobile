@@ -5,7 +5,7 @@ import {
   TouchableOpacityProps,
 } from 'react-native';
 
-import { Text, Pressable, PressableProps } from './Themed';
+import { Text, Pressable, PressableProps, View } from './Themed';
 import {
   primaryColor,
   secondaryColor,
@@ -23,9 +23,10 @@ import { IconProps, IconsEnum } from '@utils';
 type props = {
   title?: string;
   color?: 'primary' | 'secondary' | 'danger';
+  loading?: boolean;
 };
 
-export  function Button(props: props & PressableProps) {
+export function Button(props: props & PressableProps) {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
   const {
@@ -34,28 +35,43 @@ export  function Button(props: props & PressableProps) {
     lightColor = isDark ? defaultLightColor : primaryColor,
     darkColor = isDark ? primaryColor : secondaryColor,
     color = 'primary',
+    loading,
     ...otherProps
   } = props;
   const isPrimary = color === 'primary';
   const isDanger = color === 'danger';
+
+  
   return (
     <Pressable
       lightColor={isDanger ? redColor : isPrimary ? darkColor : secondaryColor}
-      darkColor={isDanger ? redColor : isPrimary ? secondaryColor : lightSecondaryColor}
+      darkColor={
+        isDanger ? redColor : isPrimary ? secondaryColor : lightSecondaryColor
+      }
       style={[styles.button, style]}
       {...otherProps}
     >
-      <Text
-        lightColor={ whiteColor}
-        darkColor={ whiteColor }
-        style={styles.buttonText}
-      >
-        {title}
-      </Text>
+      <View style={styles.buttonContainer}>
+        <Text
+          lightColor={whiteColor}
+          darkColor={whiteColor}
+          style={[styles.buttonText]}
+        >
+          {title}
+        </Text>
+        {loading && (
+          <Icon
+            type={IconsEnum.feather}
+            name={'loader'}
+            size={16}
+            color={whiteColor}
+            style={{ marginLeft: 10 }}
+          />
+        )}
+      </View>
     </Pressable>
   );
 }
-
 
 export const IconButton = ({
   onPress,
@@ -77,14 +93,13 @@ export const IconButton = ({
         style,
       ]}
     >
-    <Icon
-      name={name}
-      size={size}
-      lightColor={'rgba(3, 49, 75, 0.6)'}
-      darkColor={'rgba(255, 255, 255, 0.6)'}
+      <Icon
+        name={name}
+        size={size}
+        lightColor={'rgba(3, 49, 75, 0.6)'}
+        darkColor={'rgba(255, 255, 255, 0.6)'}
         {...others}
-
-    />
+      />
     </TouchableOpacity>
   );
 };
@@ -110,4 +125,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
   },
+  buttonContainer:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    borderRadius: 10,
+  }
 });

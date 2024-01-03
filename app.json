@@ -16,7 +16,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.coffee-app"
+      "bundleIdentifier": "com.coffee-app",
+      "config":{
+        "useNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
