@@ -1,20 +1,33 @@
+import Navigation from '@navigation';
+import useCachedResources from './src/hooks/useCachedResources';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import useColorScheme from '@hooks/useColorScheme';
+import { store } from '@redux/config';
+import { Provider } from 'react-redux';
+import { CustomToast } from '@components';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const isLoadingComplete = useCachedResources();
+  const colorScheme = useColorScheme();
+  if (!isLoadingComplete) {
+    return null;
+  } else {
+    return (
+      <Provider store={store}>
+        <SafeAreaProvider>
+          <PaperProvider>
+            <StatusBar
+              animated={true}
+              backgroundColor='transparent'
+            />
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+            <CustomToast />
+            <Navigation colorScheme={colorScheme} />
+          </PaperProvider>
+        </SafeAreaProvider>
+      </Provider>
+    );
+  }
+}
