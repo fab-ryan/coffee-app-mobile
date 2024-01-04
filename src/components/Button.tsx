@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { Text, Pressable, PressableProps, View } from './Themed';
-import {
+import Colors, {
   primaryColor,
   secondaryColor,
   lightColor as defaultLightColor,
@@ -14,6 +14,8 @@ import {
   whiteColor,
   redColor,
 } from '@constants/Colors';
+
+import { LinearGradient } from 'expo-linear-gradient';
 
 import useColorScheme from '@hooks/useColorScheme';
 import { Icon } from './Icon';
@@ -41,7 +43,6 @@ export function Button(props: props & PressableProps) {
   const isPrimary = color === 'primary';
   const isDanger = color === 'danger';
 
-  
   return (
     <Pressable
       lightColor={isDanger ? redColor : isPrimary ? darkColor : secondaryColor}
@@ -104,6 +105,58 @@ export const IconButton = ({
   );
 };
 
+type TGray = {
+  children: React.PropsWithChildren;
+  onPress?: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  style?: any;
+  disabled?: boolean;
+  width?: number;
+  height?: number;
+};
+
+export const GrayIshIconButton = ({
+  children,
+  onPress,
+  style,
+  disabled,
+  width,
+  height,
+}: TGray & TouchableOpacityProps) => {
+  const themeColor = useColorScheme();
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={[
+        styles.iconButtonGrayIsh,
+
+        {
+          backgroundColor: themeColor === 'dark' ? '#1B1B1B' : '#fff',
+          borderColor: themeColor === 'dark' ? '#014A75' : '#CEE6F8',
+
+          width: width ?? 48,
+          height: height ?? 48,
+        },
+        style,
+      ]}
+      disabled={disabled}
+    >
+      <LinearGradient
+        colors={[Colors['dark'].tint, 'transparent']}
+        style={{
+          borderRadius: 15,
+          width: width ?? 48,
+          height: height ?? 48,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        {children}
+      </LinearGradient>
+    </TouchableOpacity>
+  );
+};
+
 const styles = StyleSheet.create({
   button: {
     padding: 12,
@@ -111,6 +164,7 @@ const styles = StyleSheet.create({
     minHeight: 48,
     justifyContent: 'center',
   },
+
   iconButton: {
     borderStyle: 'solid',
     borderWidth: 1,
@@ -120,16 +174,25 @@ const styles = StyleSheet.create({
     height: 48,
     width: 48,
   },
+
+  iconButtonGrayIsh: {
+    borderWidth: 2,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderStyle: 'solid',
+    borderColor: Colors['dark'].tint,
+  },
   buttonText: {
     textAlign: 'center',
     fontWeight: '600',
     fontSize: 16,
   },
-  buttonContainer:{
+  buttonContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent',
     borderRadius: 10,
-  }
+  },
 });

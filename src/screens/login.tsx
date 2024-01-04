@@ -13,6 +13,7 @@ import { loginValidationSchema } from '@schemas';
 
 import { useLoginMutation } from '@redux';
 import { useActions } from '@hooks';
+import { useEffect } from 'react';
 
 type LoginData = {
   email: string;
@@ -38,6 +39,11 @@ export default function LoginScreen({
       password: '',
     },
   });
+  useEffect(() => {
+    if (loginRespond.isSuccess && loginRespond.data.success) {
+      navigation.navigate('Root');
+    }
+  }, [loginRespond.isSuccess]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleLogin = (data: any) => {

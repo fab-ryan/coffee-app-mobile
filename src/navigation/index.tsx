@@ -74,7 +74,8 @@ function RootNavigator(): JSX.Element {
 
   useEffect(() => {}, [access_token]);
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+    >
       {authenticated && (
         <Stack.Group>
           <Stack.Screen
@@ -106,7 +107,10 @@ function RootNavigator(): JSX.Element {
         options={{ title: 'Oops!' }}
       />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen
+          name='Modal'
+          component={ModalScreen}
+        />
       </Stack.Group>
     </Stack.Navigator>
   );
