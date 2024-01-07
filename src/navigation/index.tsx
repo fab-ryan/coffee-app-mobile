@@ -73,33 +73,31 @@ function RootNavigator(): JSX.Element {
   } = useSelector((state) => state.authUser);
 
   useEffect(() => {}, [access_token]);
+
   return (
     <Stack.Navigator
+      initialRouteName={authenticated  ? 'Root' : 'Login'}
     >
-      {authenticated && (
-        <Stack.Group>
-          <Stack.Screen
-            name='Root'
-            component={BottomTabNavigator}
-            options={{ headerShown: false }}
-          />
-        </Stack.Group>
-      )}
+      <Stack.Group>
+        <Stack.Screen
+          name='Root'
+          component={BottomTabNavigator}
+          options={{ headerShown: false }}
+        />
+      </Stack.Group>
 
-      {!authenticated && (
-        <>
-          <Stack.Screen
-            name='Login'
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name='Register'
-            component={RegisterScreen}
-            options={{ headerShown: false }}
-          />
-        </>
-      )}
+      <>
+        <Stack.Screen
+          name='Login'
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='Register'
+          component={RegisterScreen}
+          options={{ headerShown: false }}
+        />
+      </>
 
       <Stack.Screen
         name='NotFound'

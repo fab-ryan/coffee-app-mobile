@@ -22,7 +22,12 @@ function Icon<T extends IconsEnum>(props: IconProps<T>) {
       size={size || 24}
       {...otherProps}
       color={props.color ?? color}
-      style={style}
+      style={[
+        style,
+        {
+          fontFamily: 'poppins',
+        },
+      ]}
     />
   );
 }
@@ -115,7 +120,13 @@ export const InfoIcon = ({ size, color }: { size: number; color: string }) => (
   </Svg>
 );
 
-export const DoubleSquare = ({ size, color}: { size: number, color:string}) => {
+export const DoubleSquare = ({
+  size,
+  color,
+}: {
+  size: number;
+  color: string;
+}) => {
   return (
     <Svg
       width={size}

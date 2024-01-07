@@ -72,6 +72,8 @@ export default function LoginScreen({
         }
       })
       .catch((e) => {
+
+        console.log(e)
         openToast({
           message: e.message,
           type: 'Failed',

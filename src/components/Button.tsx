@@ -100,6 +100,7 @@ export const IconButton = ({
         lightColor={'rgba(3, 49, 75, 0.6)'}
         darkColor={'rgba(255, 255, 255, 0.6)'}
         {...others}
+        
       />
     </TouchableOpacity>
   );
@@ -131,8 +132,7 @@ export const GrayIshIconButton = ({
         styles.iconButtonGrayIsh,
 
         {
-          backgroundColor: themeColor === 'dark' ? '#1B1B1B' : '#fff',
-          borderColor: themeColor === 'dark' ? '#014A75' : '#CEE6F8',
+          
 
           width: width ?? 48,
           height: height ?? 48,
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderStyle: 'solid',
-    borderColor: Colors['dark'].tint,
+    borderColor: Colors['dark'].lightColor,
   },
   buttonText: {
     textAlign: 'center',
