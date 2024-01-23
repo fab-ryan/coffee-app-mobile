@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     elevation: 3,
     shadowColor: Colors['dark'].tint,
-    height: 380,
+    height: 340,
     width: 245,
     borderRadius: 25,
     marginBottom: 20,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
 
   imageContainer: {
     width: '100%',
-    height: 180,
+    height: 160,
     borderRadius: 25,
     overflow: 'hidden',
     position: 'relative',
@@ -171,19 +171,19 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   nameText: {
-    fontSize: 25,
+    fontSize: 18,
     fontWeight: '500',
     color: Colors['dark'].text,
     marginVertical: 10,
   },
   subTitleText: {
-    fontSize: 20,
+    fontSize: 15,
     marginVertical: 5,
     fontWeight: '400',
     color: Colors['dark'].text,
   },
   priceText: {
-    fontSize: 28,
+    fontSize: 18,
     fontWeight: '900',
     color: Colors['dark'].text,
   },

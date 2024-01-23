@@ -176,12 +176,12 @@ const styles = StyleSheet.create({
   },
 
   iconButtonGrayIsh: {
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
     borderStyle: 'solid',
-    borderColor: Colors['dark'].lightColor,
+    borderColor: Colors['dark'].tint,
   },
   buttonText: {
     textAlign: 'center',

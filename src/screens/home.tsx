@@ -8,27 +8,23 @@ import {
 } from 'react-native';
 import colors from '@constants/Colors';
 import {
-  GrayIshIconButton,
   Text,
   View,
-  Avatar,
   CategoriesList,
   ProductCard,
 } from '@components';
-import { DoubleSquare } from '@components/Icon';
-import UserImage from '@assets/images/user.jpg';
 import { useForm } from 'react-hook-form';
 import { InputText } from '@components/InputText';
 import { IconsEnum } from '@utils';
 import { useGetCategoriesQuery } from '@redux';
 import { useActions, useSelector } from '@hooks';
 import { Products } from '@utils/dummy';
+import { HeaderTile } from '@components/Header';
 
 export default function HomeScreen() {
   const { data: categories } = useGetCategoriesQuery(null);
   const { setCategory } = useActions();
   const { categoryId } = useSelector((state) => state.categories);
-  console.log('ccategories Id', categoryId);
 
   const colorScheme = useColorScheme();
   const { control } = useForm({
@@ -42,22 +38,7 @@ export default function HomeScreen() {
         style={styles.contentContainer}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.headerContainer}>
-          <GrayIshIconButton
-            height={50}
-            width={50}
-          >
-            <DoubleSquare
-              color={colors[colorScheme].tint}
-              size={20}
-            />
-          </GrayIshIconButton>
-          <Avatar
-            source={UserImage}
-            size={48}
-            style={{ marginVertical: 20 }}
-          />
-        </View>
+        <HeaderTile  />
         <Text
           fontFamily='poppins-extra-bold'
           style={styles.headerTitler}

@@ -35,13 +35,15 @@ export default function useCachedResources() {
       } catch (e) {
         console.warn(e);
       } finally {
-        setLoadingComplete(true);
-        SplashScreen.hideAsync();
+        setTimeout(() => {
+          setLoadingComplete(true);
+          SplashScreen.hideAsync();
+        }, 1000)
       }
     }
 
     loadResourcesAndDataAsync();
-  }, []);
+  }, [isLoadingComplete]);
 
   return isLoadingComplete;
 }

@@ -18,16 +18,28 @@ import LoginScreen from '@screens/Login';
 import RegisterScreen from '@screens/SignUp';
 import NotFoundScreen from '@screens/NotFound';
 
-import { Icon } from '@components/Icon';
+import {
+  Icon,
+  HomeIcon,
+  CartIcon,
+  HeartIcon,
+  RingIcon,
+} from '@components/Icon';
 import { IconsEnum } from '@utils';
 import { useAuth, useSelector } from '@hooks';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ModalScreen from '@screens/Modal';
+import OnboardScreen from '@screens/Onboard';
+import CartScreen from '@screens/Cart';
+import FavoriteScreen from '@screens/Favorite';
+import HistoryScreen from '@screens/History';
 
 export default function Navigation({
   colorScheme,
+  firstTime,
 }: {
   colorScheme: ColorSchemeName;
+  firstTime: boolean;
 }) {
   const { dark, light } = Colors;
   const customDarkTheme = {
@@ -57,8 +69,11 @@ export default function Navigation({
     <SafeAreaProvider>
       <NavigationContainer
         theme={colorScheme === 'dark' ? customDarkTheme : lightTheme}
+        onReady={() => {
+          console.log('ready');
+        }}
       >
-        <RootNavigator />
+        <RootNavigator firstTime={firstTime} />
       </NavigationContainer>
     </SafeAreaProvider>
   );
@@ -66,52 +81,65 @@ export default function Navigation({
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function RootNavigator(): JSX.Element {
-  const authenticated = useAuth();
+function RootNavigator({ firstTime }: { firstTime: boolean }) {
+  const { authenticated, data } = useAuth();
+  const [done, setDone] = useState(false);
+
   const {
     token: { access_token },
   } = useSelector((state) => state.authUser);
 
-  useEffect(() => {}, [access_token]);
+  useEffect(() => {
+    setDone(true);
+  }, [authenticated, data]);
 
-  return (
-    <Stack.Navigator
-      initialRouteName={authenticated  ? 'Root' : 'Login'}
-    >
-      <Stack.Group>
-        <Stack.Screen
-          name='Root'
-          component={BottomTabNavigator}
-          options={{ headerShown: false }}
-        />
-      </Stack.Group>
+  if (done) {
+    return (
+      <Stack.Navigator initialRouteName={!firstTime ? 'Login' : 'OnBoard'}>
+        {authenticated ? (
+          <>
+            <Stack.Screen
+              name='Root'
+              component={BottomTabNavigator}
+              options={{ headerShown: false }}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name='Login'
+              component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name='Register'
+              component={RegisterScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name='OnBoard'
+              component={OnboardScreen}
+              options={{ headerShown: false }}
+            />
+          </>
+        )}
 
-      <>
         <Stack.Screen
-          name='Login'
-          component={LoginScreen}
-          options={{ headerShown: false }}
+          name='NotFound'
+          component={NotFoundScreen}
+          options={{ title: 'Oops!' }}
         />
-        <Stack.Screen
-          name='Register'
-          component={RegisterScreen}
-          options={{ headerShown: false }}
-        />
-      </>
-
-      <Stack.Screen
-        name='NotFound'
-        component={NotFoundScreen}
-        options={{ title: 'Oops!' }}
-      />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen
-          name='Modal'
-          component={ModalScreen}
-        />
-      </Stack.Group>
-    </Stack.Navigator>
-  );
+        <Stack.Group screenOptions={{ presentation: 'modal' }}>
+          <Stack.Screen
+            name='Modal'
+            component={ModalScreen}
+          />
+        </Stack.Group>
+      </Stack.Navigator>
+    );
+  } else {
+    return null;
+  }
 }
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
@@ -130,7 +158,8 @@ function BottomTabNavigator() {
           tabBarInactiveTintColor: Colors[colorScheme].tabIconDefault,
           tabBarStyle: {
             height: 50,
-            paddingBottom: 10,
+            paddingBottom: 5,
+            paddingTop: 15,
           },
         }}
       >
@@ -141,11 +170,57 @@ function BottomTabNavigator() {
             title: 'Home',
             tabBarShowLabel: false,
             tabBarIcon: ({ color, size }) => (
-              <Icon
-                name='md-home-outline'
+              <HomeIcon
                 color={color}
                 size={size}
-                type={IconsEnum.ionicon}
+              />
+            ),
+            headerShown: false,
+          }}
+        />
+
+        <BottomTab.Screen
+          name='Cart'
+          component={CartScreen}
+          options={{
+            title: 'Cart',
+            tabBarShowLabel: false,
+            tabBarIcon: ({ color, size }) => (
+              <CartIcon
+                color={color}
+                size={size}
+              />
+            ),
+            headerShown: false,
+          }}
+        />
+
+        <BottomTab.Screen
+          name='Favorite'
+          component={FavoriteScreen}
+          options={{
+            title: 'Favorite',
+            tabBarShowLabel: false,
+            tabBarIcon: ({ color, size }) => (
+              <HeartIcon
+                color={color}
+                size={size}
+              />
+            ),
+            headerShown: false,
+          }}
+        />
+
+        <BottomTab.Screen
+          name='History'
+          component={HistoryScreen}
+          options={{
+            title: 'History',
+            tabBarShowLabel: false,
+            tabBarIcon: ({ color, size }) => (
+              <RingIcon
+                color={color}
+                size={size}
               />
             ),
             headerShown: false,

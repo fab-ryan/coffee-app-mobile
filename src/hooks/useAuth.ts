@@ -1,8 +1,7 @@
 import { useUserInfoQuery } from '@redux';
 import { useEffect, useState } from 'react';
 
-
-export const useAuth = (): boolean => {
+export const useAuth = () => {
   const { data, error, isLoading } = useUserInfoQuery(null);
   const [authenticated, setAuthenticated] = useState<boolean>(true);
   useEffect(() => {
@@ -10,8 +9,10 @@ export const useAuth = (): boolean => {
       setAuthenticated(false);
     } else if (data && data.statusCode === 200) {
       setAuthenticated(true);
-    } else setAuthenticated(false);
+    } else {
+      setAuthenticated(false);
+    }
   }, [data, error, isLoading]);
 
-  return authenticated;
+  return { authenticated, error, isLoading, data };
 };

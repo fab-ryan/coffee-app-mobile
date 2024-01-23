@@ -24,7 +24,10 @@ export default function App() {
             />
 
             <CustomToast />
-            <Navigation colorScheme={colorScheme} />
+            <Navigation
+              colorScheme={colorScheme}
+              firstTime={false}
+            />
           </PaperProvider>
         </SafeAreaProvider>
       </Provider>
