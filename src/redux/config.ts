@@ -15,7 +15,7 @@ import {
 } from 'redux-persist';
 
 import { combinedStore } from './combined';
-import { authApi } from './api';
+import { authApi, categoryApi } from './api';
 
 export type ThunkActionType<T = Promise<void>> = ThunkAction<
   T,
@@ -34,7 +34,9 @@ export const store = configureStore({
         serializableCheck: false,
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(authApi.middleware),
+    }).concat(authApi.middleware)
+      .concat(categoryApi.middleware)
+    ,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AuthResponse, UserInfoReturnType } from '@types';
-import { setToken } from '@utils';
+import { setToken, getToken } from '@utils';
 import { authApi } from '@redux/api';
 
 type InitialStateType = {
@@ -32,7 +32,24 @@ export const setAuthUser = createAsyncThunk(
   async (payload: AuthResponse) => {
     const accessToken: string = payload.data && payload.data.access_token;
     await setToken(accessToken);
-    return payload.data.access_token;
+    try {
+      const token = await new Promise((resolve, reject) => {
+        getToken((value) => {
+          if (value) {
+            resolve(value);
+          } else {
+            reject(new Error('Token not found'));
+          }
+        });
+      });
+      if (token) {
+        return token;
+      } else {
+        return payload.data.access_token;
+      }
+    } catch (err) {
+      return '';
+    }
   },
 );
 
@@ -47,7 +64,7 @@ const authUser = createSlice({
 
   extraReducers: (build) => {
     build.addCase(setAuthUser.fulfilled, (state, action) => {
-      state.token.access_token = action.payload;
+      state.token.access_token = action.payload as string  | undefined | null ;
     });
   },
 });

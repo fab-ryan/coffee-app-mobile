@@ -1,13 +1,17 @@
-import { Image as DefaultImage, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Image as DefaultImages } from 'expo-image';
 
 import { tint } from '@constants/Colors';
 
-export type ImageProps = DefaultImage['props'];
+export type ImageProps = DefaultImages['props'];
 
 export function Image({ style, ...props }: ImageProps) {
+  const blurhash =
+    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
   return (
-    <DefaultImage
+    <DefaultImages
       style={[styles.image, style]}
+      placeholder={props.placeholder ?? blurhash}
       {...props}
     />
   );

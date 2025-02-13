@@ -6,8 +6,6 @@ import {
   PressableProps as DefaultPressableProps,
 } from 'react-native';
 
-
-
 import { secondaryColor } from '@constants/Colors';
 import { useThemeColor } from '@hooks/useThemeColor';
 import React from 'react';
@@ -22,8 +20,17 @@ type DefaultFontAwesomeProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   name?: any;
 };
+type FontTypes =
+  | 'poppins'
+  | 'poppins-bold'
+  | 'poppins-light'
+  | 'poppins-medium'
+  | 'poppins-thin'
+  | 'poppins-extra-bold'
+  | 'poppins-semi-bold';
 
-export type TextProps = ThemeProps & DefaultText['props'];
+export type TextProps = ThemeProps &
+  DefaultText['props'] & { fontFamily?: FontTypes };
 export type ViewProps = ThemeProps & DefaultView['props'];
 export type PressableProps = ThemeProps &
   DefaultPressableProps &
@@ -37,15 +44,21 @@ export type FontAwesomeProps = ThemeProps & DefaultFontAwesomeProps;
 export type TextInputProps = ThemeProps &
   DefaultTextInput['props'] &
   DefaultTextInput['props'] &
-  ExtraProps;
+  ExtraProps & { fontFamily?: FontTypes };
 
 export function Text(props: TextProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
+  const {
+    style,
+    lightColor,
+    fontFamily = 'poppins',
+    darkColor,
+    ...otherProps
+  } = props;
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
   return (
     <DefaultText
-      style={[{ color }, style]}
+      style={[{ color }, style, { fontFamily }]}
       {...otherProps}
     />
   );
@@ -81,7 +94,13 @@ export function Pressable(props: PressableProps) {
 }
 
 export function TextInput(props: TextInputProps) {
-  const { style, lightColor = '#E2E9EB', darkColor, ...otherProps } = props;
+  const {
+    style,
+    lightColor = '#E2E9EB',
+    fontFamily = 'poppins',
+    darkColor,
+    ...otherProps
+  } = props;
   const color = useThemeColor(
     { light: secondaryColor, dark: lightColor },
     'text',
@@ -97,7 +116,7 @@ export function TextInput(props: TextInputProps) {
 
   return (
     <DefaultTextInput
-      style={[{ color, backgroundColor }, style]}
+      style={[{ color, backgroundColor }, style, { fontFamily }]}
       placeholderTextColor={placeholderColor}
       {...otherProps}
       ref={props.ref}
@@ -107,11 +126,11 @@ export function TextInput(props: TextInputProps) {
 
 import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
-export  function Link({ style, ...props }: TouchableOpacityProps) {
+export function Link({ style, ...props }: TouchableOpacityProps) {
   return (
     <TouchableOpacity
       {...props}
-      style={[style, {  justifyContent: 'center' }]}
+      style={[style, { justifyContent: 'center' }]}
     />
   );
 }

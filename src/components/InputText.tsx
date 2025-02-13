@@ -138,7 +138,7 @@ function TextInputField({
         {icon && (
           <Icon
             name={icon['name']}
-            size={18}
+            size={icon.size ?? 18}
             type={IconsEnum[iconType || 'fa']}
             lightColor={
               isFocused ? 'rgba(3, 49, 75, 0.6)' : 'rgba(3, 49, 75, 0.4)'
@@ -148,6 +148,7 @@ function TextInputField({
                 ? 'rgba(255, 255, 255, 0.6)'
                 : 'rgba(255, 255, 255, 0.4)'
             }
+            style={icon.style}
           />
         )}
         <TextInput
@@ -260,7 +261,7 @@ const styles = StyleSheet.create({
     borderColor: '#E2E9EB',
     borderRadius: 15,
     padding: 15,
-    position:'relative',
+    position: 'relative',
   },
   eyeButton: {
     position: 'absolute',
@@ -285,7 +286,6 @@ const styles = StyleSheet.create({
     width: 70,
     display: 'flex',
     flexDirection: 'row',
-
   },
   inputHasFlag: {
     paddingLeft: 55,
@@ -296,6 +296,5 @@ const styles = StyleSheet.create({
   },
   flagBar: {
     paddingLeft: 3,
-   
   },
 });
